@@ -29,6 +29,7 @@ app.use('/', (req, res, next) => {
         }
         console.log(req.headers);
         const token = (req.headers['authorization']).toString().replace('Bearer ', '').trim();
+
         const tokenValid = tokenValidator(token);
         if(!token){
             return res.status(401).json({message :'Unauthorized.'});
