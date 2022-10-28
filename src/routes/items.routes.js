@@ -13,4 +13,6 @@ itemRouter.put('/item/update', (req, res) => controllers.updateFashionItem(req, 
 
 itemRouter.get('/items/mini', (req, res) => controllers.getAllItemsByPageSize(req, res));
 
+itemRouter.delete('/item/', (req, res)=> controllers.deleteItemById(req, res));
+
 module.exports= itemRouter;

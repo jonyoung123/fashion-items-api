@@ -14,10 +14,13 @@ class FashionController
     async getAllItems(request, response){
         try {
             const all_fashion_items = await itemService.getAllFashionItems();
-            response.status(200).json(all_fashion_items);
+            
+            return response.status(200).json(all_fashion_items);
         } catch (error) {
-            response.status(400).json({
-                message : "unable to fetch all items"
+            console.log(error);
+            return response.status(400).json({
+                responseCode : 400,
+                message : "no item found",
             });
         }
     }
@@ -103,6 +106,40 @@ class FashionController
         } catch (error) {
             console.log(error)
             return res.status(400).json("Bad request, Unable to update item.");
+        }
+    }
+    async deleteItemById(req, res){
+        let itemId = req.query.id;
+        if(!itemId){
+            response.status(400).json({message: `Bad request. id parameter is required! `})
+        }
+        const itemFound = await itemService.checkItemById(itemId);
+            if (itemFound === false)
+                return res.status(400).json({
+                    responseCode : 400,
+                    message : "item with the id doesn't exist"
+                });
+
+        try {
+            
+            const isDeleted = await itemService.deleteItemById(Number(itemId));
+            if (isDeleted === true){
+                res.status(200).json({
+                    responseCode : 200,
+                    message : "Item successfully deleted",
+                })
+            }else{
+                res.status(500).json({
+                    responseCode : 500,
+                    message : "Id does not exist",
+                })
+            }
+            
+        } catch (error) {
+            return res.status(400).json({
+                responseCode : 400,
+                message : "Bad request, unable to delete item",
+            })
         }
     }
 }

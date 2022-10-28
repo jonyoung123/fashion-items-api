@@ -87,6 +87,26 @@ class FashionService
         }
         return isUpdated;
     }
+
+    async deleteItemById(id){
+        let isDeleted = false;
+        const query = `delete from ${this.fashionTableName} where id = ${id}`;
+        try {
+            const res = await repo.any(query);
+            // console.log(res);
+            isDeleted = true;
+        } catch (error) {
+            console.log(error);
+        }
+        return isDeleted;
+    }
+    async checkItemById(id){
+        const ID = Number(id);
+        const item = await this.getItemById(ID);
+        if (!item)
+            return false;
+        else return true;
+    }
 }
 
 module.exports = FashionService;
