@@ -52,8 +52,15 @@ class FashionController
         pageSize = Number(pageSize);
         if(pageSize > 5)
             return response.status(400).json({message: 'Bad Request. Maximum page size is 5'});
-        const pagedItems = await itemService.getItemsByPageSize(pageSize);
-        return response.status(200).json(pagedItems);
+        try {
+            const pagedItems = await itemService.getItemsByPageSize(pageSize);
+            return response.status(200).json(pagedItems);
+        } catch (error) {
+            return response.status(400).json({
+                responseCode : 400,
+                message : "Bad Request, No data found"
+            })
+        }
     }
 
     async createFashionItem(request, response){
