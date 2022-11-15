@@ -17,7 +17,6 @@ class FashionController
             
             return response.status(200).json(all_fashion_items);
         } catch (error) {
-            console.log(error);
             return response.status(400).json({
                 responseCode : 400,
                 message : "no item found",
@@ -30,15 +29,15 @@ class FashionController
         let itemName = request.query.name;
         
         if(itemName === undefined){
-            response.status(400).json({message: `Bad request. 'name' parameter is required! `})
+           return  response.status(400).json({message: `Bad request. 'name' parameter is required! `})
         }
 
         itemName = String(itemName).trim();
         try{
             const itemsByName = await itemService.getItemsByName(itemName);
-            response.status(200).json(itemsByName);
+            return response.status(200).json(itemsByName);
         }catch(error){
-            response.status(400).json({
+            return response.status(400).json({
                 message : "unable to fetch all items by given name."
             });
         }

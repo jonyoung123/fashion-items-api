@@ -27,7 +27,6 @@ app.use('/', (req, res, next) => {
             console.log('yes')
             return next();
         }
-        console.log(req.headers);
         const token = (req.headers['authorization']).toString().replace('Bearer ', '').trim();
         const tokenValid = tokenValidator(token);
         if(!token){
@@ -35,7 +34,6 @@ app.use('/', (req, res, next) => {
         }
         next();
     }catch(err){
-        console.log(err)
         return res.status(401).json({message :'Forbidden'})
     }
 
